@@ -1,0 +1,64 @@
+{
+	"name": "figma-plugin-svelte-vite",
+	"private": true,
+	"version": "1.0.0",
+	"description": "Create Figma plugins with Svelte + Vite + TypeScript",
+	"homepage": "https://www.github.com/the-dataface/figma-plugin-svelte-vite",
+	"repository": {
+		"type": "git",
+		"url": "https://www.github.com/the-dataface/figma-plugin-svelte-vite.git"
+	},
+	"bugs": {
+		"email": "sawyer@thedataface.com",
+		"url": "https://www.github.com/the-dataface/figma-plugin-svelte-vite/issues/new/choose"
+	},
+	"license": "MIT",
+	"keywords": [
+		"figma plugins",
+		"svelte"
+	],
+	"author": {
+		"name": "Sawyer Click",
+		"email": "sawyerclick@gmail.com",
+		"url": "https://www.sawyer.codes"
+	},
+	"contributors": [
+		{
+			"name": "Sam Vickars",
+			"email": "sam.vickars@gmail.com",
+			"url": "https://www.samvickars.com"
+		},
+		{
+			"name": "Michael Hester"
+		},
+		{
+			"name": "Arjun Kakkar"
+		}
+	],
+	"type": "module",
+	"scripts": {
+		"dev": "concurrently 'vite build --watch -c ./vite.config.plugin.ts' 'vite build --watch -c ./vite.config.ui.ts'",
+		"build": "tsc && npm run build:ui && npm run build:plugin",
+		"build:ui": "vite build -c ./vite.config.ui.ts",
+		"build:plugin": "vite build -c ./vite.config.plugin.ts",
+		"check": "svelte-check --tsconfig ./tsconfig.json"
+	},
+	"devDependencies": {
+		"@figma/plugin-typings": "^1.82.0",
+		"@floating-ui/dom": "^1.5.3",
+		"@sveltejs/vite-plugin-svelte": "^3.0.1",
+		"@tsconfig/svelte": "^5.0.2",
+		"@types/node": "^20.10.5",
+		"concurrently": "^8.2.2",
+		"d3-color": "^3.1.0",
+		"svelte": "^4.2.8",
+		"svelte-check": "^3.6.2",
+		"svelte-feather-icons": "^4.1.0",
+		"tailwindcss": "^3.4.0",
+		"tslib": "^2.6.2",
+		"typescript": "^5.3.3",
+		"vite": "^5.0.10",
+		"vite-plugin-generate-file": "^0.1.1",
+		"vite-plugin-singlefile": "^0.13.5"
+	}
+}
