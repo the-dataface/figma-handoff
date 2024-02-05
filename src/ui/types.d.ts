@@ -157,15 +157,29 @@ declare global {
 
 	// messages from plugin to UI
 	interface MessageDataFromPlugin extends MessageData {
-		type: 'init';
+		type: 'init' | 'handoff-end';
 	}
 
 	interface MessageDataFromUI extends MessageData {
-		type: 'notify' | 'resize-window';
+		type: 'init' | 'notify' | 'resize-window' | 'handoff-start';
 	}
 
 	type TabName = string;
 	type TabIcon = typeof SvelteComponent | FigmaIconName | undefined | Emoji;
+
+	type Tokens = {
+		BOOLEAN?: { [key: string]: any };
+		COLOR?: { [key: string]: any };
+		FLOAT?: { [key: string]: any };
+		STRING?: { [key: string]: any };
+	};
+
+	type Option = { label: string; value: any };
+
+	type Options = {
+		Libraries: Option[];
+		Types: Option[];
+	};
 
 	interface App {
 		tabs: SvelteComponent[];

@@ -14,15 +14,13 @@
 
 <div
 	role="contentinfo"
-	class="relative flex border-t border-figma-color-border bg-figma-color-bg"
+	class="flex border-t border-figma-color-border bg-figma-color-bg fixed bottom-0 inset-x-0 w-full"
 >
-	<div class="fixed bottom-0 right-0">
-		<WindowResize />
-	</div>
+	<BrandLogo />
 
 	<details
 		id="footer-menu"
-		class="mr-auto group flex h-full cursor-pointer select-none flex-nowrap items-center rounded-none bg-none text-2xs"
+		class="ml-auto group flex h-full cursor-pointer select-none flex-nowrap items-center rounded-none bg-none text-2xs"
 		title="Menu"
 		use:outclick={() =>
 			document.getElementById('footer-menu')?.removeAttribute('open')}
@@ -33,12 +31,13 @@
 			<XIcon size="16" class="hidden group-open:block" />
 			<InfoIcon size="16" class="block group-open:hidden" />
 		</summary>
+
 		<nav
 			aria-label="About the project"
-			class="menu-pane fixed z-50 left-2 bottom-10 flex flex-col rounded-lg rounded-bl-none border border-figma-color-border overflow-hidden p-0 bg-figma-color-bg"
+			class="menu-pane fixed z-50 right-2 bottom-10 flex flex-col rounded-lg rounded-bl-none border border-figma-color-border overflow-hidden p-0 bg-figma-color-bg"
 		>
 			<ul class="divide-y divide-figma-color-border">
-				{#each [{ href: pkg.homepage, icon: HelpCircleIcon, text: 'About' }, { href: pkg.bugs.url, icon: AlertCircleIcon, text: 'Report Issue' }, { href: `${pkg.homepage}/blob/main/CHANGELOG.md`, icon: GitMergeIcon, text: `v${pkg.version}` }] as { href, icon, text }}
+				{#each [{ href: pkg.homepage, icon: HelpCircleIcon, text: 'About' }, { href: pkg.bugs.url, icon: AlertCircleIcon, text: 'Report Issue' }] as { href, icon, text }}
 					<li>
 						<a
 							class="flex items-center gap-2 py-2 px-3 text-sm hover:bg-figma-color-bg-hover focus:bg-figma-color-bg-hover hover:text-figma-color-text-hover active:text-figma-color-text-component-pressed focus:text-figma-color-text-hover hover:underline"
@@ -60,5 +59,7 @@
 		</nav>
 	</details>
 
-	<BrandLogo class="ml-auto" />
+	<div>
+		<WindowResize />
+	</div>
 </div>
