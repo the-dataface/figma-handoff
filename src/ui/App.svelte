@@ -93,7 +93,7 @@
 					postMessage({ type: 'handoff-start', options: selected });
 				}}
 			>
-				<span>Handoff tokens</span>
+				<span>Generate handoff files</span>
 			</button>
 		</section>
 
@@ -178,7 +178,7 @@
 				<header class="flex flex-row justify-between items-end gap-4">
 					<h2 class="font-semibold text-figma-color-text-secondary">
 						<button
-							class="p-2 bg-figma-color-bg-secondary rounded border flex flex-row flex-nowrap items-center justify-center gap-2 border-figma-color-border-secondary text-figma-color-text hover:bg-figma-color-bg-selected-secondary hover:border-figma-color-border-selected active:bg-figma-color-bg-selected-pressed transition-all duration-150 ease-out"
+							class="py-2 px-3 bg-figma-color-bg-secondary rounded border flex flex-row flex-nowrap items-center justify-center gap-2 border-figma-color-border-secondary text-figma-color-text hover:bg-figma-color-bg-selected-secondary hover:border-figma-color-border-selected active:bg-figma-color-bg-selected-pressed transition-all duration-150 ease-out"
 							on:click={() => {
 								const zip = new JSZip();
 
