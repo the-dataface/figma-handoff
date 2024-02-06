@@ -214,7 +214,11 @@ const processTextStyles = (styles = figma.getLocalTextStyles()) => {
 			// quit if no properties or is the base
 			if (!properties || breakpoint === 'base') continue;
 
-			cls += `\n\t@screen ${breakpoint} {${obj2cls(properties, 2)}\n\t}\n`;
+			// https://tailwindcss.com/docs/functions-and-directives#screen
+			cls += `\n\t@media screen(${breakpoint}) {${obj2cls(
+				properties,
+				2
+			)}\n\t}\n`;
 		}
 
 		cls += '\n}';
