@@ -168,17 +168,13 @@ declare global {
 	type TabIcon = typeof SvelteComponent | FigmaIconName | undefined | Emoji;
 
 	type Tokens = {
-		BOOLEAN?: { [key: string]: any };
-		COLOR?: { [key: string]: any };
-		FLOAT?: { [key: string]: any };
-		STRING?: { [key: string]: any };
+		[key: string]: any;
 	};
 
 	type Option = { label: string; value: any };
 
 	type Options = {
 		Libraries: Option[];
-		Types: Option[];
 	};
 
 	interface App {

@@ -32,12 +32,10 @@
 
 	let options: Options = {
 		Libraries: [],
-		Types: [],
 	};
 
 	let selected: Options = {
 		Libraries: [],
-		Types: [],
 	};
 </script>
 
