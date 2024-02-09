@@ -1,4 +1,5 @@
 import rgbToHex from '$plugin/utils/rgbToHex';
+
 import pxtorem from './utils/pxtorem';
 
 /**
@@ -64,12 +65,13 @@ export default (
 				// if nested keys, we should do some specific formatting
 				if (keys.length) {
 					switch (parentKey) {
-						case 'Screens': {
-							keys = keys.replaceAll('v-', '');
+						case 'borderRadius':
+						case 'screens': {
+							keys = keys;
 							value = `${value}px`;
 							break;
 						}
-						case 'Spacing': {
+						case 'spacing': {
 							keys = keys.replaceAll('-', '.');
 							value = pxtorem(value as number);
 							break;
