@@ -2,7 +2,7 @@ type RGBA = { r: number; g: number; b: number; a: number };
 export default function rgbToHex({ r, g, b, a }: RGBA) {
 	if (a !== 1) {
 		return `rgba(${[r, g, b].map((n) => Math.round(n * 255)).join(', ')}, ${
-			a?.toFixed(4) || 1
+			a?.toFixed(3) || 1
 		})`;
 	}
 	const toHex = (value: number) => {
