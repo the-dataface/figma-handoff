@@ -1,5 +1,4 @@
 import rgbToHex from '$plugin/utils/rgbToHex';
-import slugify from '$plugin/utils/slugify';
 import pxtorem from './utils/pxtorem';
 
 /**
@@ -16,7 +15,7 @@ export default (
 		'BOOLEAN',
 		'STRING',
 	])
-) => {
+): Tokens => {
 	// dump everything in bins according to the type.
 	// type -> mode -> variable names nested -> value
 	// e.g. { COLOR: { 'dark mode': { 'bg': '#000' } } }
@@ -29,7 +28,7 @@ export default (
 		for (const mode of collection.modes) {
 			for (const variableId of collection.variableIds) {
 				const variable = figma.variables.getVariableById(variableId);
-				if (!variable) return;
+				if (!variable) continue;
 
 				let value = variable.valuesByMode[mode.modeId];
 
@@ -86,8 +85,7 @@ export default (
 				const groups = [actualMode, parentKey, keys]
 					.filter(Boolean) // filter out empty strings
 					.join('/') // join all keys
-					.split('/') // then split them back to account for nested keys in variable name
-					.map(slugify); // then turn into some slugs
+					.split('/'); // then split them back to account for nested keys in variable name
 
 				groups.forEach((group, i) => {
 					const isKey = i < groups.length - 1;

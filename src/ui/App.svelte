@@ -1,13 +1,7 @@
 <script lang="ts">
 	import { cubicOut } from 'svelte/easing';
 	import { fly } from 'svelte/transition';
-	import {
-		ArrowRightIcon,
-		ChevronDownIcon,
-		DownloadIcon,
-		FigmaIcon,
-		GithubIcon,
-	} from 'svelte-feather-icons';
+	import { ChevronDownIcon, DownloadIcon } from 'svelte-feather-icons';
 	import JSZip from 'jszip';
 	import Message, { postMessage } from '$ui/lib/components/Message.svelte';
 	import Footer from './furniture/Footer.svelte';
@@ -63,20 +57,18 @@
 		class="w-full min-w-[320px] flex flex-col gap-8 flex-nowrap p-4 h-full overflow-y-auto pt-0 pb-12"
 	>
 		<header
-			class="flex flex-col gap-2 items-center justify-center max-w-sm mx-auto text-center pt-12"
+			class="flex flex-col gap-1 items-center justify-center max-w-sm mx-auto text-center pt-12"
 		>
-			<div class="flex flex-row flex-nowrap gap-2">
-				<FigmaIcon class="stroke-figma-color-text-brand" size="24" />
-				<ArrowRightIcon class="stroke-figma-color-text-brand" size="24" />
-				<GithubIcon class="stroke-figma-color-text-brand" size="24" />
+			<div class="flex flex-row flex-nowrap gap-2 text-5xl leading-none">
+				🤝
 			</div>
 
 			<h1 class="text-figma-color-text font-bold text-6xl leading-none">
 				Handoff
 			</h1>
 
-			<p class="text-figma-color-text font-normal text-base">
-				Export Figma design tokens to a dev-friendly format.
+			<p class="text-figma-color-text-secondary font-normal text-sm italic">
+				Design to dev done right.
 			</p>
 		</header>
 
@@ -95,7 +87,8 @@
 			</button>
 		</section>
 
-		<section
+		<!-- <section
+			id="options"
 			class:hidden={options === undefined}
 			class="border border-figma-color-border flex flex-col gap-4 rounded max-w-md w-full mx-auto"
 		>
@@ -108,7 +101,7 @@
 					>
 						<h2 class="font-bold text-base">Options</h2>
 						<p class="text-xs text-figma-color-text-secondary translate-y-px">
-							Choose the libraries and variable types to export
+							Customize the libraries and styles to export.
 						</p>
 					</div>
 					<ChevronDownIcon
@@ -165,7 +158,7 @@
 					{/each}
 				</div>
 			</details>
-		</section>
+		</section> -->
 
 		{#if files.tokens.value !== '' && files.css.value !== ''}
 			<section
@@ -176,7 +169,7 @@
 				<header class="flex flex-row justify-between items-end gap-4">
 					<h2 class="font-semibold text-figma-color-text-secondary">
 						<button
-							class="py-2 px-3 bg-figma-color-bg-secondary rounded border flex flex-row flex-nowrap items-center justify-center gap-2 border-figma-color-border-secondary text-figma-color-text hover:bg-figma-color-bg-selected-secondary hover:border-figma-color-border-selected active:bg-figma-color-bg-selected-pressed transition-all duration-150 ease-out"
+							class="py-2 px-3 bg-figma-color-bg-secondary rounded border flex flex-row flex-nowrap items-center justify-center gap-2 border-figma-color-border text-figma-color-text hover:bg-figma-color-bg-selected-secondary hover:border-figma-color-border-selected active:bg-figma-color-bg-selected-pressed transition-all duration-150 ease-out"
 							on:click={() => {
 								const zip = new JSZip();
 
@@ -206,16 +199,13 @@
 				<div class="flex flex-col gap-2">
 					{#each Object.entries(files) as [key, { filename, value, href, preview }]}
 						{#if value !== undefined}
-							<section
-								id={key}
-								class="flex-1 flex flex-col gap-0.5 rounded-lg bg-figma-color-bg-secondary"
-							>
+							<section id={key} class="flex-1 flex flex-col gap-0.5 rounded-lg">
 								<details class="group/details">
 									<summary
-										class="flex flex-row flex-wrap gap-4 justify-between items-center p-4 select-none group-open/details:border-b group-open/details:border-figma-color-border group-open/details:bg-figma-color-bg-secondary hover:border-figma-color-border-brand rounded group-open/details:rounded-b-none sticky top-0"
+										class="bg-figma-color-bg flex flex-row flex-wrap gap-4 justify-between items-center p-4 select-none border border-figma-color-border group-open/details:border-b group-open/details:border-figma-color-border group-open/details:bg-figma-color-bg-secondary rounded group-open/details:rounded-b-none hover:bg-figma-color-bg-secondary sticky top-0"
 									>
 										<a
-											class="border border-figma-color-text-tertiary rounded-md p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-base hover:bg-figma-color-bg-selected-secondary hover:border-figma-color-border-selected active:bg-figma-color-bg-selected-pressed transition-all duration-150 ease-out group/download"
+											class="border border-figma-color-text-tertiary rounded-md p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-base hover:bg-figma-color-bg-selected-secondary hover:border-figma-color-border-selected-strong active:bg-figma-color-bg-selected-pressed transition-all duration-150 ease-out group/download"
 											href={href(value)}
 											download={filename}
 										>
@@ -234,7 +224,9 @@
 										/>
 									</summary>
 
-									<div class="p-4 bg-figma-color-bg-secondary">
+									<div
+										class="p-4 bg-figma-color-bg border-x border-b rounded-md border-figma-color-border"
+									>
 										<pre class="whitespace-break-spaces">{@html preview(
 												value
 											)}</pre>

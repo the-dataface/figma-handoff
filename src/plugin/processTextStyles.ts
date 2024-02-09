@@ -1,20 +1,31 @@
-import { ascending } from 'd3';
 import pxtorem from '$plugin/utils/pxtorem';
+import { ascending } from 'd3';
+
 import cleanObject from './utils/cleanObject';
 import obj2cls from './utils/obj2cls';
 import slugify from './utils/slugify';
 
 /**
  * @description Processes Figma's Text Styles into POSTCSS syntax utilizing tailwind's `screens` feature. Screens are fed in from the `tokens` object and are optional.
- * @returns {string} string in .postcss file syntax
+ * @returns css + tokens
  */
 export default (
-	styles = figma.getLocalTextStyles(),
-	tokens: Tokens = {}
-): string => {
-	if (!tokens?.['fontSize']) tokens['fontSize'] = {};
+	styles = figma.getLocalTextStyles()
+): { css: string; tokens: Tokens } => {
+	// text style variable tokens
+	const tokens: Tokens = {
+		fontSize: {},
+	};
 
-	/** our classes container */
+	/**
+	 * @description CSS classes as [class, properties]
+	 * @example {
+	 * 	'heading-1': {
+	 * 		base: { ...properties },
+	 * 		sm: { ...properties },
+	 * 	},
+	 * }
+	 */
 	const classes: { [key: string]: any } = {};
 
 	const textCases: { [key: string]: string } = {
@@ -37,15 +48,15 @@ export default (
 	};
 
 	// usual tailwind breakpoints
-	const breakpoints = ['2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl'];
+	const twbreakpoints = ['2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl'];
 
 	// sort so we go smallest to largest in classing
 	styles = styles.sort((a, b) => {
-		const [breakpointA] = a.name.split('/').reverse();
-		const [breakpointB] = b.name.split('/').reverse();
+		const [breakpointA] = a.name.split('/');
+		const [breakpointB] = b.name.split('/');
 
-		const aIdx = breakpoints.indexOf(breakpointA.replace('v-', ''));
-		const bIdx = breakpoints.indexOf(breakpointB.replace('v-', ''));
+		const aIdx = twbreakpoints.indexOf(breakpointA);
+		const bIdx = twbreakpoints.indexOf(breakpointB);
 
 		return ascending(aIdx, bIdx);
 	});
@@ -60,9 +71,15 @@ export default (
 			textDecoration,
 		} = style;
 
-		const [_breakpoint, ...name] = style.name.split('/').reverse();
+		const [_breakpoint, name, ...variants] = style.name.split('/');
 
-		const className = slugify(name.reverse().join('/'));
+		// its not a default variant so we're not interested
+		if (variants?.length > 0 && variants?.[0]?.toLowerCase() !== 'default') {
+			// console.log('skipping', name, variants);
+			continue;
+		}
+
+		const className = slugify(name);
 
 		let isBase = false;
 
@@ -74,7 +91,7 @@ export default (
 			isBase = true;
 		}
 
-		const breakpoint = slugify(isBase ? 'base' : _breakpoint.replace('v-', ''));
+		const breakpoint = slugify(isBase ? 'base' : _breakpoint);
 
 		const fontWeight = fontWeights?.[fontName.style.split(' ')?.[0]] || 400;
 
@@ -140,7 +157,22 @@ export default (
 	// now iterate through and convert to PostCSS + tailwind syntax
 	const output = [];
 
-	for (const className of Object.keys(classes)) {
+	const classPriority = ['display', 'headline', 'label', 'eyebrow', 'body'];
+
+	const sortedKeys = Object.keys(classes).sort((a, b) => {
+		const [aLevel, ...aType] = a.split('-').reverse();
+		const [bLevel, ...bType] = b.split('-').reverse();
+
+		const aTypeStr = aType.reverse().join('-');
+		const bTypeStr = bType.reverse().join('-');
+
+		const aIdx = classPriority.indexOf(aTypeStr);
+		const bIdx = classPriority.indexOf(bTypeStr);
+
+		return ascending(aIdx, bIdx) || ascending(+aLevel, +bLevel);
+	});
+
+	for (const className of sortedKeys) {
 		const classVariants = classes[className];
 
 		const base = classVariants['base'];
@@ -152,7 +184,8 @@ export default (
 		let cls = `.${className} {${obj2cls(base)}\n`;
 
 		// uses tailwind syntax for breakpoints
-		for (const breakpoint of Object.keys(classVariants)) {
+		const breakpoints = Object.keys(classVariants);
+		for (const breakpoint of breakpoints) {
 			const properties = classVariants[breakpoint];
 
 			// quit if no properties or is the base
@@ -165,12 +198,12 @@ export default (
 			)}\n\t}\n`;
 		}
 
-		cls += '\n}';
+		cls += '}';
 
 		output.push(cls);
 	}
 
 	const css = output.join('\n\n');
 
-	return css;
+	return { css, tokens };
 };

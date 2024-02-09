@@ -3,6 +3,7 @@
  * @see {@link https://www.figma.com/plugin-docs/|Figma Plugin Docs}
  */
 
+import processEffects from './processEffects';
 import processTextStyles from './processTextStyles';
 import processVariables from './processVariables';
 
@@ -52,12 +53,19 @@ figma.ui.onmessage = (message: MessageDataFromUI) => {
 			const variableCollections = options.Libraries.map((d: Option) =>
 				figma.variables.getVariableCollectionById(d.value)
 			).filter(Boolean) as VariableCollection[];
+			const variableTokens = processVariables(variableCollections);
+
+			const effectsStyles = figma.getLocalEffectStyles();
+			const effectsTokens = processEffects(effectsStyles);
 
 			const textStyles = figma.getLocalTextStyles();
+			const { css, tokens: textStyleTokens } = processTextStyles(textStyles);
 
-			const tokens = processVariables(variableCollections);
-
-			const css = processTextStyles(textStyles, tokens);
+			const tokens = Object.assign(
+				variableTokens,
+				effectsTokens,
+				textStyleTokens
+			);
 
 			figma.ui.postMessage({
 				type: 'handoff-end',
