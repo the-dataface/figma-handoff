@@ -69,7 +69,6 @@ export default (
 							value = `${value}px`;
 							break;
 						}
-
 						case 'Spacing': {
 							keys = keys.replaceAll('-', '.');
 							value = pxtorem(value as number);
