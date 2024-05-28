@@ -112,7 +112,7 @@ export default (
 					: !fontWeight || fontWeight === 400
 					? undefined
 					: fontWeight,
-			'font-style': fontName.style.toLowerCase().includes('italic')
+			'font-style': fontName?.style?.toLowerCase().includes('italic')
 				? 'italic'
 				: undefined,
 			'letter-spacing':
@@ -129,9 +129,9 @@ export default (
 					: `${Math.round(lineHeight.value)}%`,
 			'text-transform': textCases?.[textCase] || undefined,
 			'text-decoration':
-				textDecoration.toLowerCase() === 'none'
+				textDecoration?.toLowerCase() === 'none'
 					? undefined
-					: textDecoration.toLowerCase(),
+					: textDecoration?.toLowerCase(),
 		});
 
 		// stop it early since base gets everything

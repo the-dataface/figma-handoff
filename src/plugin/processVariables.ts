@@ -50,7 +50,7 @@ export default (
 
 				let obj: any = tokens;
 
-				const actualMode = defaultModes.has(mode.name.toLowerCase())
+				const actualMode = defaultModes.has(mode?.name?.toLowerCase())
 					? ''
 					: mode.name;
 
@@ -60,7 +60,7 @@ export default (
 				const parentKey = splitName[0];
 
 				// rejoin keys without the parent key so we can do special formatting on non-tailwind config keys
-				let keys = splitName.slice(1).join('/').toLowerCase();
+				let keys = splitName?.slice(1)?.join('/')?.toLowerCase();
 
 				// if nested keys, we should do some specific formatting
 				if (keys.length) {

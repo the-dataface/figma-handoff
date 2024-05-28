@@ -29,7 +29,7 @@
 	// receive messages
 	window.onmessage = async (event: MessageEvent<MessageData>) => {
 		// messages MUST have an associated 'type' to properly dispatch an event
-		if (!event.data.pluginMessage.type) return;
+		if (!event?.data?.pluginMessage?.type) return;
 
 		const { type, ...rest } = event.data.pluginMessage;
 
