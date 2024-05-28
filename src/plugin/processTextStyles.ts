@@ -9,9 +9,7 @@ import slugify from './utils/slugify';
  * @description Processes Figma's Text Styles into POSTCSS syntax utilizing tailwind's `screens` feature. Screens are fed in from the `tokens` object and are optional.
  * @returns css + tokens
  */
-export default (
-	styles = figma.getLocalTextStyles()
-): { css: string; tokens: Tokens } => {
+export default (styles: TextStyle[]): { css: string; tokens: Tokens } => {
 	// text style variable tokens
 	const tokens: Tokens = {
 		fontSize: {},

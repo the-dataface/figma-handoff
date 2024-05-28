@@ -19,18 +19,22 @@ figma.skipInvisibleInstanceChildren = true;
  */
 figma.showUI(__html__, { width: 560, height: 500, themeColors: true });
 
-// plugin initialized
-figma.ui.postMessage({
-	type: 'init',
-	options: {
-		Libraries: figma.variables
-			.getLocalVariableCollections()
-			.map((c) => ({ label: c.name, value: c.id })),
-	},
-});
+const init = async () => {
+	const collections = await figma.variables.getLocalVariableCollectionsAsync();
+
+	// plugin initialized
+	figma.ui.postMessage({
+		type: 'init',
+		options: {
+			Libraries: collections.map((c) => ({ label: c.name, value: c.id })),
+		},
+	});
+
+	return;
+};
 
 // message handler
-figma.ui.onmessage = (message: MessageDataFromUI) => {
+figma.ui.onmessage = async (message: MessageDataFromUI) => {
 	if (!message?.type) return;
 
 	switch (message.type) {
@@ -49,16 +53,19 @@ figma.ui.onmessage = (message: MessageDataFromUI) => {
 		case 'handoff-start': {
 			const { options } = message;
 
-			// get all the variable collections selected in the UI in Option form.
-			const variableCollections = options.Libraries.map((d: Option) =>
-				figma.variables.getVariableCollectionById(d.value)
-			).filter(Boolean) as VariableCollection[];
-			const variableTokens = processVariables(variableCollections);
+			const variableCollections = (await (
+				await Promise.all(
+					options.Libraries.map((d: Option) =>
+						figma.variables.getVariableCollectionByIdAsync(d.value)
+					)
+				)
+			).filter(Boolean)) as VariableCollection[];
+			const variableTokens = await processVariables(variableCollections);
 
-			const effectsStyles = figma.getLocalEffectStyles();
+			const effectsStyles = await figma.getLocalEffectStylesAsync();
 			const effectsTokens = processEffects(effectsStyles);
 
-			const textStyles = figma.getLocalTextStyles();
+			const textStyles = await figma.getLocalTextStylesAsync();
 			const { css, tokens: textStyleTokens } = processTextStyles(textStyles);
 
 			const tokens = Object.assign(
@@ -75,3 +82,5 @@ figma.ui.onmessage = (message: MessageDataFromUI) => {
 		}
 	}
 };
+
+init();

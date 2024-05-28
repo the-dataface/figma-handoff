@@ -9,7 +9,7 @@ importers:
   .:
     devDependencies:
       '@figma/plugin-typings':
-        specifier: ^1.93.0
+        specifier: '*'
         version: 1.93.0
       '@floating-ui/dom':
         specifier: ^1.6.5

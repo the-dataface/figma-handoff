@@ -4,9 +4,7 @@ import rgbToHex from '$plugin/utils/rgbToHex';
  * @description Process Figma's Effects styles into Tailwind syntax
  * @returns {Tokens}
  */
-export default (
-	styles: EffectStyle[] = figma.getLocalEffectStyles()
-): Tokens => {
+export default (styles: EffectStyle[]): Tokens => {
 	const tokens: Tokens = {};
 
 	for (const style of styles) {

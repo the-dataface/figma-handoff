@@ -8,4 +8,6 @@ export default {
 	ui: 'index.html',
 	enableProposedApi: false,
 	editorType: ['figma', 'figjam'],
+	documentAccess: 'dynamic-page',
+	networkAccess: { allowedDomains: ['none'] },
 };

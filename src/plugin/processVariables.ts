@@ -6,7 +6,7 @@ import pxtorem from './utils/pxtorem';
  * @description Processes Figma's Variable Collections into a nested object of tokens.
  * @returns {Tokens} nested object of tokens
  */
-export default (
+export default async (
 	/** variable collections in array format, traditional figma variables */
 	variableCollections: VariableCollection[] = [],
 	/** accepted variable types */
@@ -16,7 +16,7 @@ export default (
 		'BOOLEAN',
 		'STRING',
 	])
-): Tokens => {
+): Promise<Tokens> => {
 	// dump everything in bins according to the type.
 	// type -> mode -> variable names nested -> value
 	// e.g. { COLOR: { 'dark mode': { 'bg': '#000' } } }
@@ -28,7 +28,7 @@ export default (
 	for (const collection of variableCollections) {
 		for (const mode of collection.modes) {
 			for (const variableId of collection.variableIds) {
-				const variable = figma.variables.getVariableById(variableId);
+				const variable = await figma.variables.getVariableByIdAsync(variableId);
 				if (!variable) continue;
 
 				let value = variable.valuesByMode[mode.modeId];
