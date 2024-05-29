@@ -3,14 +3,14 @@
 	"private": true,
 	"version": "1.0.0",
 	"description": "Handoff designs to developers with ease",
-	"homepage": "https://www.github.com/the-dataface/figma-plugin-svelte-vite",
+	"homepage": "https://www.github.com/the-dataface/handoff",
 	"repository": {
 		"type": "git",
-		"url": "https://www.github.com/the-dataface/figma-plugin-svelte-vite.git"
+		"url": "https://www.github.com/the-dataface/handoff.git"
 	},
 	"bugs": {
 		"email": "sawyer@thedataface.com",
-		"url": "https://www.github.com/the-dataface/figma-plugin-svelte-vite/issues/new/choose"
+		"url": "https://www.github.com/the-dataface/handoff/issues/new"
 	},
 	"license": "MIT",
 	"keywords": [
