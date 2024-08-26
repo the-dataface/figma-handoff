@@ -160,7 +160,7 @@
 			</details>
 		</section> -->
 
-		{#if files.tokens.value !== '' && files.css.value !== ''}
+		{#if files.tokens.value !== '' || files.css.value !== ''}
 			<section
 				id="files"
 				class="flex flex-col gap-2 max-w-md w-full mx-auto"
